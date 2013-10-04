@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Box2D Javascript Fun : 11 : Box2D with Impulse and HTML5 Canvas</title>
+    <script src="js/vendor/Box2dWeb-2.1.a.3.min.js"></script>
+    <script src="js/main.js"></script>
+    <style>
+    body {
+      -webkit-transform: translateZ(0);
+    }
+    </style>
+  </head>
+  <body>
+    <canvas id="c0" width="640" height="480" style="border: 1px solid black"></canvas>
+    
+    <div>
+      <label>Power: <input type="range" min="1" max="200" id="power" value="30"></label><output id="power-output">30</output>
+    </div>
+    <div>
+      <label>Angle: <input type="range" min="0" max="90" id="angle" value="70"></label><output id="angle-output">70</output>
+    </div>
+    <div>
+      <label>Bullet? <input type="checkbox" id="bullet"></label>
+    </div>
+    <div>
+      <button id="restart">Restart</button>
+    </div>
+    
+    
+    <script>
+    // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+    window.requestAnimFrame = (function(){
+          return  window.requestAnimationFrame       || 
+                  window.webkitRequestAnimationFrame || 
+                  window.mozRequestAnimationFrame    || 
+                  window.oRequestAnimationFrame      || 
+                  window.msRequestAnimationFrame     || 
+                  function(/* function */ callback, /* DOMElement */ element){
+                    window.setTimeout(callback, 1000 / 60);
+                  };
+    })();
+    </script>
+    
+    <script>
+    function linkRangeToOutput(id) {
+      document.getElementById(id).addEventListener('change', function(e) {
+        document.getElementById(id+'-output').value = e.target.value;
+      });
+    }
+    linkRangeToOutput('power');
+    linkRangeToOutput('angle');
+    </script>
+    
+    <script>
+
+    var powerElem = document.getElementById('power');
+    var angleElem = document.getElementById('angle');
+    var bulletElem = document.getElementById('bullet');
+    
+    var SCALE = 30;
+    var NULL_CENTER = {x:null, y:null};
+    
+    function Entity(id, x, y, angle, center, color) {
+      this.id = id;
+      this.x = x;
+      this.y = y;
+      this.angle = angle || 0;
+      this.center = center;
+      this.color = color || "red";
+    }
+    
+    Entity.prototype.update = function(state) {
+      this.x = state.x;
+      this.y = state.y;
+      this.center = state.c;
+      this.angle = state.a;
+    }
+    
+    Entity.prototype.draw = function(ctx) {
+      ctx.fillStyle = 'black';
+      ctx.beginPath();
+      ctx.arc(this.x * SCALE, this.y * SCALE, 4, 0, Math.PI * 2, true);
+      ctx.closePath();
+      ctx.fill();
+      
+      ctx.fillStyle = 'yellow';
+      ctx.beginPath();
+      ctx.arc(this.center.x * SCALE, this.center.y * SCALE, 2, 0, Math.PI * 2, true);
+      ctx.closePath();
+      ctx.fill();
+    }
+    
+    Entity.build = function(def) {
+      if (def.radius) {
+        return new CircleEntity(def.id, def.x, def.y, def.angle, NULL_CENTER, def.color, def.radius);
+      } else if (def.polys) {
+        return new PolygonEntity(def.id, def.x, def.y, def.angle, NULL_CENTER, def.color, def.polys);
+      } else {
+        return new RectangleEntity(def.id, def.x, def.y, def.angle, NULL_CENTER, def.color, def.halfWidth, def.halfHeight);
+      }
+    }
+    
+    function CircleEntity(id, x, y, angle, center, color, radius) {
+      color = color || 'aqua';
+      Entity.call(this, id, x, y, angle, center, color);
+      this.radius = radius;
+    }
+    CircleEntity.prototype = new Entity();
+    CircleEntity.prototype.constructor = CircleEntity;
+    
+    CircleEntity.prototype.draw = function(ctx) {
+      ctx.save();
+      ctx.translate(this.x * SCALE, this.y * SCALE);
+      ctx.rotate(this.angle);
+      ctx.translate(-(this.x) * SCALE, -(this.y) * SCALE);
+      
+      ctx.fillStyle = this.color;
+      ctx.strokeStyle = 'black';
+      ctx.beginPath();
+      ctx.arc(this.x * SCALE, this.y * SCALE, this.radius * SCALE, 0, Math.PI * 2, true);
+      ctx.moveTo(this.x * SCALE, this.y * SCALE);
+      ctx.lineTo((this.x) * SCALE, (this.y + this.radius) * SCALE);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      
+      ctx.restore();
+      
+      Entity.prototype.draw.call(this, ctx);
+    }
+    
+    function RectangleEntity(id, x, y, angle, center, color, halfWidth, halfHeight) {
+      Entity.call(this, id, x, y, angle, center, color);
+      this.halfWidth = halfWidth;
+      this.halfHeight = halfHeight;
+    }
+    RectangleEntity.prototype = new Entity();
+    RectangleEntity.prototype.constructor = RectangleEntity;
+    
+    RectangleEntity.prototype.draw = function(ctx) {
+      ctx.save();
+      ctx.translate(this.x * SCALE, this.y * SCALE);
+      ctx.rotate(this.angle);
+      ctx.translate(-(this.x) * SCALE, -(this.y) * SCALE);
+      ctx.fillStyle = this.color;
+      ctx.fillRect((this.x-this.halfWidth) * SCALE,
+                   (this.y-this.halfHeight) * SCALE,
+                   (this.halfWidth*2) * SCALE,
+                   (this.halfHeight*2) * SCALE);
+      ctx.restore();
+      
+      Entity.prototype.draw.call(this, ctx);
+    }
+    
+    function PolygonEntity(id, x, y, angle, center, color, polys) {
+      Entity.call(this, id, x, y, angle, center, color);
+      this.polys = polys;
+    }
+    PolygonEntity.prototype = new Entity();
+    PolygonEntity.prototype.constructor = PolygonEntity;
+    
+    PolygonEntity.prototype.draw = function(ctx) {
+      ctx.save();
+      ctx.translate(this.x * SCALE, this.y * SCALE);
+      ctx.rotate(this.angle);
+      ctx.translate(-(this.x) * SCALE, -(this.y) * SCALE);
+      ctx.fillStyle = this.color;
+
+      for (var i = 0; i < this.polys.length; i++) {
+        var points = this.polys[i];
+        ctx.beginPath();
+        ctx.moveTo((this.x + points[0].x) * SCALE, (this.y + points[0].y) * SCALE);
+        for (var j = 1; j < points.length; j++) {
+           ctx.lineTo((points[j].x + this.x) * SCALE, (points[j].y + this.y) * SCALE);
+        }
+        ctx.lineTo((this.x + points[0].x) * SCALE, (this.y + points[0].y) * SCALE);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+      }
+
+      ctx.restore();
+      
+      Entity.prototype.draw.call(this, ctx);
+    }
+    
+    var world = {};
+    var bodiesState = null;
+    var box = null;
+    
+    function update(animStart) {
+      box.update();
+      bodiesState = box.getState();
+      
+      for (var id in bodiesState) {
+        var entity = world[id];
+        if (entity) entity.update(bodiesState[id]);
+      }
+    }
+    
+    var ctx = document.getElementById("c0").getContext("2d");
+    var canvasWidth = ctx.canvas.width;
+    var canvasHeight = ctx.canvas.height;
+    
+    function draw() {
+      //console.log("d");
+      
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      for (var id in world) {
+        var entity = world[id];
+        entity.draw(ctx);
+      }
+    }
+    
+    var initialState = [
+        {id: "ground", x: ctx.canvas.width / 2 / SCALE, y: ctx.canvas.height / SCALE, halfHeight: 0.5, halfWidth: ctx.canvas.width / SCALE, color: 'yellow'},
+        {id: "ball", x: 2, y: ctx.canvas.height / SCALE - 2, radius: 0.2},
+        {id: "barra", x:2, y: ctx.canvas.height / SCALE - 1, halfHeight: 0.1, halfWidth: 1},
+        
+        {id: "b1", x:2, y: ctx.canvas.height / SCALE - 12, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b2", x:2, y: ctx.canvas.height / SCALE - 11, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b3", x:2, y: ctx.canvas.height / SCALE - 10, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b4", x:2, y: ctx.canvas.height / SCALE - 9, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b5", x:2, y: ctx.canvas.height / SCALE - 8, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b6", x:2, y: ctx.canvas.height / SCALE - 7, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b7", x:2, y: ctx.canvas.height / SCALE - 6, halfHeight: 0.4, halfWidth: 0.6},
+        
+        {id: "b8", x:3.4, y: ctx.canvas.height / SCALE - 12, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b9", x:3.4, y: ctx.canvas.height / SCALE - 11, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b10", x:3.4, y: ctx.canvas.height / SCALE - 10, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b11", x:3.4, y: ctx.canvas.height / SCALE - 9, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b12", x:3.4, y: ctx.canvas.height / SCALE - 8, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b13", x:3.4, y: ctx.canvas.height / SCALE - 7, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b14", x:3.4, y: ctx.canvas.height / SCALE - 6, halfHeight: 0.4, halfWidth: 0.6},
+        
+        {id: "b15", x:4.8, y: ctx.canvas.height / SCALE - 12, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b16", x:4.8, y: ctx.canvas.height / SCALE - 11, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b17", x:4.8, y: ctx.canvas.height / SCALE - 10, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b18", x:4.8, y: ctx.canvas.height / SCALE - 9, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b19", x:4.8, y: ctx.canvas.height / SCALE - 8, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b20", x:4.8, y: ctx.canvas.height / SCALE - 7, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b21", x:4.8, y: ctx.canvas.height / SCALE - 6, halfHeight: 0.4, halfWidth: 0.6},
+        
+        {id: "b22", x:6.2, y: ctx.canvas.height / SCALE - 12, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b23", x:6.2, y: ctx.canvas.height / SCALE - 11, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b24", x:6.2, y: ctx.canvas.height / SCALE - 10, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b25", x:6.2, y: ctx.canvas.height / SCALE - 9, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b26", x:6.2, y: ctx.canvas.height / SCALE - 8, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b27", x:6.2, y: ctx.canvas.height / SCALE - 7, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b28", x:6.2, y: ctx.canvas.height / SCALE - 6, halfHeight: 0.4, halfWidth: 0.6},
+        
+        {id: "b29", x:7.6, y: ctx.canvas.height / SCALE - 12, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b30", x:7.6, y: ctx.canvas.height / SCALE - 11, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b31", x:7.6, y: ctx.canvas.height / SCALE - 10, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b32", x:7.6, y: ctx.canvas.height / SCALE - 9, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b33", x:7.6, y: ctx.canvas.height / SCALE - 8, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b34", x:7.6, y: ctx.canvas.height / SCALE - 7, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b35", x:7.6, y: ctx.canvas.height / SCALE - 6, halfHeight: 0.4, halfWidth: 0.6},    
+
+        {id: "b36", x:9, y: ctx.canvas.height / SCALE - 12, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b37", x:9, y: ctx.canvas.height / SCALE - 11, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b38", x:9, y: ctx.canvas.height / SCALE - 10, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b39", x:9, y: ctx.canvas.height / SCALE - 9, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b40", x:9, y: ctx.canvas.height / SCALE - 8, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b41", x:9, y: ctx.canvas.height / SCALE - 7, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b42", x:9, y: ctx.canvas.height / SCALE - 6, halfHeight: 0.4, halfWidth: 0.6}, 
+    ];
+    
+    var running = true;
+    var impulseTimeout = null;
+    var initTimeout = null;
+    
+    function init() {
+      for (var i = 0; i < initialState.length; i++) {
+        world[initialState[i].id] = Entity.build(initialState[i]);
+      }
+      
+      box = new bTest(60, false, canvasWidth, canvasHeight, SCALE);
+      box.setBodies(world, bulletElem.checked);
+      
+    }
+    
+    var restart = false;
+    
+    document.addEventListener("DOMContentLoaded", function() {
+      init();
+      
+      (function loop(animStart) {
+        if (restart) {
+          clearTimeout(impulseTimeout);
+          clearTimeout(initTimeout);
+          init();
+          restart = false;
+        }
+        update(animStart);
+        draw();
+        requestAnimFrame(loop);
+      })();
+    }, false);
+    
+    document.getElementById("restart").addEventListener("click", function(e) {
+      restart = true;
+    });
+
+    </script>
+  </body>
+</html>
