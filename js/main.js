@@ -21,7 +21,7 @@ function bTest(intervalRate, adaptive, width, height, scale) {
   this.bodiesMap = {};
 
   this.world = new b2World(
-        new b2Vec2(0, 0)    //gravity
+        new b2Vec2(0, 10)    //gravity
      ,  true                 //allow sleep
   );
 
@@ -81,10 +81,11 @@ bTest.prototype.setBodies = function(bodyEntities, enableBullet) {
     for(var id in bodyEntities) {
         var entity = bodyEntities[id];
         
-        if (entity.id == 'ground') {
-            bodyDef.type = b2Body.b2_staticBody;
+        if (entity.id == 'ball') {			
+			bodyDef.type = b2Body.b2_dynamicBody;
+            
         } else {
-            bodyDef.type = b2Body.b2_dynamicBody;
+            bodyDef.type = b2Body.b2_staticBody;
         }
         
         bodyDef.position.x = entity.x;

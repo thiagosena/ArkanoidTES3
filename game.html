@@ -15,15 +15,6 @@
     <canvas id="c0" width="640" height="480" style="border: 1px solid black"></canvas>
     
     <div>
-      <label>Power: <input type="range" min="1" max="200" id="power" value="30"></label><output id="power-output">30</output>
-    </div>
-    <div>
-      <label>Angle: <input type="range" min="0" max="90" id="angle" value="70"></label><output id="angle-output">70</output>
-    </div>
-    <div>
-      <label>Bullet? <input type="checkbox" id="bullet"></label>
-    </div>
-    <div>
       <button id="restart">Restart</button>
     </div>
     
@@ -214,7 +205,9 @@
     }
     
     var initialState = [
-        {id: "ground", x: ctx.canvas.width / 2 / SCALE, y: ctx.canvas.height / SCALE, halfHeight: 0.5, halfWidth: ctx.canvas.width / SCALE, color: 'yellow'},
+        {id: "groundTop", x: ctx.canvas.width / 2 / SCALE, y: ctx.canvas.height / SCALE-16.14, halfHeight: 0.4, halfWidth: ctx.canvas.width / SCALE, color: 'black'},
+        {id: "groundRigth", x: 21.47, y: ctx.canvas.height / SCALE-8, halfHeight: ctx.canvas.width / SCALE, halfWidth: 0.5, color: 'black'},
+        {id: "groundLeft", x: ctx.canvas.height / SCALE-16.14, y: 7.5, halfHeight: ctx.canvas.width / SCALE, halfWidth: 0.5, color: 'black'},
         {id: "ball", x: 2, y: ctx.canvas.height / SCALE - 2, radius: 0.2},
         {id: "barra", x:2, y: ctx.canvas.height / SCALE - 1, halfHeight: 0.1, halfWidth: 1},
         
@@ -265,6 +258,62 @@
         {id: "b40", x:9, y: ctx.canvas.height / SCALE - 8, halfHeight: 0.4, halfWidth: 0.6},
         {id: "b41", x:9, y: ctx.canvas.height / SCALE - 7, halfHeight: 0.4, halfWidth: 0.6},
         {id: "b42", x:9, y: ctx.canvas.height / SCALE - 6, halfHeight: 0.4, halfWidth: 0.6}, 
+        
+        {id: "b43", x:10.4, y: ctx.canvas.height / SCALE - 12, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b44", x:10.4, y: ctx.canvas.height / SCALE - 11, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b45", x:10.4, y: ctx.canvas.height / SCALE - 10, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b46", x:10.4, y: ctx.canvas.height / SCALE - 9, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b47", x:10.4, y: ctx.canvas.height / SCALE - 8, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b48", x:10.4, y: ctx.canvas.height / SCALE - 7, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b49", x:10.4, y: ctx.canvas.height / SCALE - 6, halfHeight: 0.4, halfWidth: 0.6},
+        
+        {id: "b50", x:11.8, y: ctx.canvas.height / SCALE - 12, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b51", x:11.8, y: ctx.canvas.height / SCALE - 11, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b52", x:11.8, y: ctx.canvas.height / SCALE - 10, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b53", x:11.8, y: ctx.canvas.height / SCALE - 9, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b54", x:11.8, y: ctx.canvas.height / SCALE - 8, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b55", x:11.8, y: ctx.canvas.height / SCALE - 7, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b56", x:11.8, y: ctx.canvas.height / SCALE - 6, halfHeight: 0.4, halfWidth: 0.6},
+        
+        {id: "b57", x:13.2, y: ctx.canvas.height / SCALE - 12, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b58", x:13.2, y: ctx.canvas.height / SCALE - 11, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b59", x:13.2, y: ctx.canvas.height / SCALE - 10, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b60", x:13.2, y: ctx.canvas.height / SCALE - 9, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b61", x:13.2, y: ctx.canvas.height / SCALE - 8, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b62", x:13.2, y: ctx.canvas.height / SCALE - 7, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b63", x:13.2, y: ctx.canvas.height / SCALE - 6, halfHeight: 0.4, halfWidth: 0.6},
+        
+        {id: "b64", x:14.6, y: ctx.canvas.height / SCALE - 12, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b65", x:14.6, y: ctx.canvas.height / SCALE - 11, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b66", x:14.6, y: ctx.canvas.height / SCALE - 10, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b67", x:14.6, y: ctx.canvas.height / SCALE - 9, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b68", x:14.6, y: ctx.canvas.height / SCALE - 8, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b69", x:14.6, y: ctx.canvas.height / SCALE - 7, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b70", x:14.6, y: ctx.canvas.height / SCALE - 6, halfHeight: 0.4, halfWidth: 0.6},
+        
+        {id: "b71", x:16, y: ctx.canvas.height / SCALE - 12, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b72", x:16, y: ctx.canvas.height / SCALE - 11, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b73", x:16, y: ctx.canvas.height / SCALE - 10, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b74", x:16, y: ctx.canvas.height / SCALE - 9, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b75", x:16, y: ctx.canvas.height / SCALE - 8, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b76", x:16, y: ctx.canvas.height / SCALE - 7, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b77", x:16, y: ctx.canvas.height / SCALE - 6, halfHeight: 0.4, halfWidth: 0.6},
+        
+        {id: "b78", x:17.4, y: ctx.canvas.height / SCALE - 12, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b79", x:17.4, y: ctx.canvas.height / SCALE - 11, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b80", x:17.4, y: ctx.canvas.height / SCALE - 10, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b81", x:17.4, y: ctx.canvas.height / SCALE - 9, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b82", x:17.4, y: ctx.canvas.height / SCALE - 8, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b83", x:17.4, y: ctx.canvas.height / SCALE - 7, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b84", x:17.4, y: ctx.canvas.height / SCALE - 6, halfHeight: 0.4, halfWidth: 0.6},
+        
+        {id: "b85", x:18.8, y: ctx.canvas.height / SCALE - 12, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b86", x:18.8, y: ctx.canvas.height / SCALE - 11, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b87", x:18.8, y: ctx.canvas.height / SCALE - 10, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b88", x:18.8, y: ctx.canvas.height / SCALE - 9, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b89", x:18.8, y: ctx.canvas.height / SCALE - 8, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b90", x:18.8, y: ctx.canvas.height / SCALE - 7, halfHeight: 0.4, halfWidth: 0.6},
+        {id: "b91", x:18.8, y: ctx.canvas.height / SCALE - 6, halfHeight: 0.4, halfWidth: 0.6},
     ];
     
     var running = true;
@@ -277,7 +326,7 @@
       }
       
       box = new bTest(60, false, canvasWidth, canvasHeight, SCALE);
-      box.setBodies(world, bulletElem.checked);
+      box.setBodies(world);
       
     }
     
