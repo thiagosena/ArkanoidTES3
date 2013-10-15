@@ -1,10 +1,4 @@
-	function init(img,imgsize) {
-		if (!img) {
-			img = "jh.png";
-		}
-		if (!imgsize) {
-			imgsize = 16;
-		}
+	function init() {
 		// Define the canvas
 		var canvaselem = document.getElementById("canvas");
 		var context = canvaselem.getContext("2d");
@@ -123,42 +117,9 @@
 				}
 				var shape = fl.GetShape();
 				var shapeType = shape.GetType();
-				// put an image in place if we store it in user data
-				if (b.m_userData && b.m_userData.imgsrc) {
-					// This "image" body destroys polygons that it contacts
-					var edge = b.GetContactList();
-					while (edge)  {
-						var other = edge.other;
-						if (other.GetType() == b2Body.b2_dynamicBody) {
-							var othershape = other.GetFixtureList().GetShape();
-							if (othershape.GetType() == b2Shape.e_polygonShape) {
-								world.DestroyBody(other);
-								break;	
-							 }
-						 }
-						 edge = edge.next;
-					}
-
-					// Draw the image on the object
-					var size = b.m_userData.imgsize;
-					var imgObj = new Image(size,size);
-					imgObj.src = b.m_userData.imgsrc;
-					context.save();
-					// Translate to the center of the object, then flip and scale appropriately
-					context.translate(position.x,flipy); 
-					context.rotate(b.GetAngle());
-					var s2 = -1*(size/2);
-					var scale = b.m_userData.bodysize/-s2;
-					context.scale(scale,scale);
-					context.drawImage(imgObj,s2,s2);
-					context.restore();
-					//b.ApplyImpulse(new b2Vec2(6000,6000),new b2Vec2(0,0));
-					//b.ApplyImpulse(new b2Vec2(6000,6000),b.GetWorldCenter());
-					 
-				 }
 
 				 // draw a circle - a solid color, so we don't worry about rotation
-				 else if (shapeType == b2Shape.e_circleShape) {
+				 if (shapeType == b2Shape.e_circleShape) {
 					context.strokeStyle = "#CCCCCC";
 					context.fillStyle = "#FF8800";
 					context.beginPath();
