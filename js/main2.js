@@ -63,7 +63,7 @@
 	    // It also lets us skip the clearing of the display since it takes care of it.
 
 	 // The refresh rate of the display. Change the number to make it go faster
-		z = window.setInterval(update2, (1000 / 700));
+		z = window.setInterval(update2, (1000 / 500));
 
 	 function addCircle() {
 		 // create basic circle
@@ -75,7 +75,7 @@
 		 
 		 var bodyDef = new b2BodyDef;
 		 bodyDef.type = b2Body.b2_dynamicBody;
-		 scale = 20;
+		 scale = 13;
 		 fixDef.shape = new b2CircleShape(scale);
             bodyDef.position.x = (canvaswidth-scale*2)*Math.random() + scale*2;
 	    	bodyDef.position.y = canvasheight- (scale*Math.random() +scale*2);
@@ -84,7 +84,7 @@
 		var body = world.CreateBody(bodyDef).CreateFixture(fixDef);
 		//body.GetBody().SetMassData(new b2MassData(new b2Vec2(0,0),0,50));
 		body.GetBody().ApplyImpulse(
-			new b2Vec2(-100000, 999900),
+			new b2Vec2(-999999, 629393),
 			body.GetBody().GetWorldCenter()
 		);
 	 }
@@ -108,7 +108,7 @@
 			// Destroy objects that have floated off the screen
 			var position = b.GetPosition();
 			if (position.x < -deletionBuffer || position.x >(canvaswidth+4)) {
-				world.DestroyBody(b);
+				world.DestroyBody(b);//inserir aqui o código pra dizer que o user perdeu
 				continue;
 		 	}
 
@@ -167,28 +167,6 @@
 					context.stroke();
 					context.fill();
 				 }
-
-				 // draw a polygon 
-				 else if (shapeType == b2Shape.e_polygonShape) {
-					var vert = shape.GetVertices();
-					context.beginPath();
-
-					// Handle the possible rotation of the polygon and draw it
-					b2Math.MulMV(b.m_xf.R,vert[0]);
-					var tV = b2Math.AddVV(position, b2Math.MulMV(b.m_xf.R, vert[0]));
-					context.moveTo(tV.x, canvasheight-tV.y);
-					for (var i = 0; i < vert.length; i++) {
-						var v = b2Math.AddVV(position, b2Math.MulMV(b.m_xf.R, vert[i]));
-						context.lineTo(v.x, canvasheight - v.y);
-					}
-					context.lineTo(tV.x, canvasheight - tV.y);
-					context.closePath();
-					context.strokeStyle = "#CCCCCC";
-					context.fillStyle = "#88FFAA";
-					context.stroke();
-					context.fill();
-
-				}
 
 			 }
 		 }
