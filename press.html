@@ -1,4 +1,21 @@
-	function init() {
+<!DOCTYPE html>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> 
+ <body onload="init();" style="background:rgb(239,242,255)" id="target"> 
+	   <script src="./js/vendor/jquery-1.10.1.min.js"></script>
+	   	<script src="./js/vendor/box2d.js"> </script>
+
+<div style="text-align: center">
+        <canvas id="canvas" width="600" height="400" style="background-color:#000000;"></canvas> 
+	</div>
+
+<script src="./js/vendor/events.js"></script>
+ 
+ 
+ <script>
+ 	function init() {
+	
+		var globalBodyPaddle;
 		// Define the canvas
 		var canvaselem = document.getElementById("canvas");
 		var context = canvaselem.getContext("2d");
@@ -61,7 +78,7 @@
 		fixDefPaddle.shape = new b2PolygonShape;
 		fixDefPaddle.shape.SetAsBox(95,10);
 		 
-		world.CreateBody(bodyDefPaddle).CreateFixture(fixDefPaddle);
+		globalBodyPaddle = world.CreateBody(bodyDefPaddle).CreateFixture(fixDefPaddle);
 		
 		// Start dropping some shapes
 		addCircle();
@@ -96,7 +113,7 @@
 			
 		var body = world.CreateBody(bodyDef).CreateFixture(fixDef);
 		body.GetBody().ApplyImpulse(
-			new b2Vec2(600000, -777777),
+			new b2Vec2(60, -777777),
 			body.GetBody().GetWorldCenter()
 		);
 	 }
@@ -166,7 +183,7 @@
 					context.fill();
 					
 					if(position.y < 0){
-						//window.alert("perdeu!");
+						window.alert("perdeu!");
 					}
 					
 				 }
@@ -220,5 +237,60 @@
 			}
 		 }
 	 }
+	 
+		var xTriggered = 0;
+		$( "#target" ).keypress(function( event ) {
+		  if (event.which == 97 ) {
+			//window.alert("voce apertou A");
+			
+						globalBodyPaddle.GetBody().ApplyImpulse(
+							new b2Vec2(-9999999, 0),
+							globalBodyPaddle.GetBody().GetWorldCenter()
+						);
+			
+		  }
+		   if (event.which == 115 ) {
+			//window.alert("voce apertou S");
+			
+					globalBodyPaddle.GetBody().ApplyImpulse(
+							new b2Vec2(0, -9999999),
+							globalBodyPaddle.GetBody().GetWorldCenter()
+						);
+		  }
+		   if (event.which == 100 ) {
+			//window.alert("voce apertou D");
+			
+			globalBodyPaddle.GetBody().ApplyImpulse(
+							new b2Vec2(9999999, 0),
+							globalBodyPaddle.GetBody().GetWorldCenter()
+						);
+		  }
+		   if (event.which == 119 ) {
+			//window.alert("voce apertou W");
+			
+			globalBodyPaddle.GetBody().ApplyImpulse(
+							new b2Vec2(0, 9999999),
+							globalBodyPaddle.GetBody().GetWorldCenter()
+						);
+		  }
+		  
+		  xTriggered++;
+		 // var msg = "Handler for .keypress() called " + xTriggered + " time(s).";
+		  //$.print( msg, "html" );
+		  //$.print( event );
+		});
 };
 
+/*
+teclas
+ a 97
+ s 115
+ d 100
+ w 119
+ */
+ 
+ </script>
+
+ 
+</body>
+</html>
