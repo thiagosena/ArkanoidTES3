@@ -70,6 +70,79 @@
 				addBlock(20+(36*j),350 - 36*i);
 			}
 		}
+		
+		
+		
+		
+		
+		
+		//If mouse is moving over the thing
+    $(canvas).mousemove(function(e)
+    {
+        var p = get_real(new b2Vec2(e.pageX/scale, e.pageY/scale))
+         
+        mouse_x = p.x;
+        mouse_y = p.y;
+         
+        if(mouse_pressed && !mouse_joint)
+        {
+            var body = GetBodyAtMouse();
+             
+            if(body)
+            {
+                //if joint exists then create
+                var def = new b2MouseJointDef();
+                 
+                def.bodyA = ground;
+                def.bodyB = body;
+                def.target = p;
+                 
+                def.collideConnected = true;
+                def.maxForce = 1000 * body.GetMass();
+                def.dampingRatio = 0;
+                 
+                mouse_joint = world.CreateJoint(def);
+                 
+                body.SetAwake(true);
+            }
+        }
+        else
+        {
+            //nothing
+        }
+         
+        if(mouse_joint)
+        {
+            mouse_joint.SetTarget(p);
+        }
+    });
+     
+    $(canvas).mousedown(function()
+    {
+        //flag to indicate if mouse is pressed or not
+        mouse_pressed = true;
+    });
+     
+    /*
+        When mouse button is release, mark pressed as false and delete the mouse joint if it exists
+    */
+    $(canvas).mouseup(function()
+    {
+        mouse_pressed = false;
+         
+        if(mouse_joint)
+        {
+            world.DestroyJoint(mouse_joint);
+            mouse_joint = false;
+        }
+    });
+		
+		
+		
+		
+		
+		
+		
 
 	    //setup debug draw
 	    // This is used to draw the shapes for debugging. Here the main purpose is to 
