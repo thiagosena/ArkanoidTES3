@@ -23,7 +23,7 @@
 		fixDef.shape = new b2PolygonShape;
 		fixDef.shape.SetAsBox(canvaswidth/2,2);
 		
-		bodyDef.position.Set(canvaswidth/2, 0);
+		bodyDef.position.Set(canvaswidth/2, -30);
 		world.CreateBody(bodyDef).CreateFixture(fixDef);
 		
 		bodyDef.position.Set(canvaswidth/2, canvasheight);
@@ -50,6 +50,11 @@
 		
 		// Start dropping some shapes
 		addCircle();
+		
+		var blocksqnt = 40;
+		for (var i=0;i<blocksqnt;i++){ 
+			addBlock();
+		}
 
 	    //setup debug draw
 	    // This is used to draw the shapes for debugging. Here the main purpose is to 
@@ -71,16 +76,36 @@
 		 bodyDef.type = b2Body.b2_dynamicBody;
 		 scale = 13;
 		 fixDef.shape = new b2CircleShape(scale);
-            bodyDef.position.x = (canvaswidth-scale*2)*Math.random() + scale*2;
-	    	bodyDef.position.y = canvasheight- (scale*Math.random() +scale*2);
+         bodyDef.position.x = (canvaswidth-scale*2)*Math.random() + scale*2;
+		 bodyDef.position.y = canvasheight- (scale*Math.random() +scale*2);
 			
 			
 		var body = world.CreateBody(bodyDef).CreateFixture(fixDef);
-		//body.GetBody().SetMassData(new b2MassData(new b2Vec2(0,0),0,50));
 		body.GetBody().ApplyImpulse(
 			new b2Vec2(-999999, 629393),
 			body.GetBody().GetWorldCenter()
 		);
+	 }
+	 
+	function addBlock() {
+		 // create basic block
+         var bodyDef = new b2BodyDef;
+		 var fixDef = new b2FixtureDef;
+		 fixDef.density = 1;
+		 fixDef.friction = 0;
+		 fixDef.restitution = 1;
+		 
+		 var bodyDef = new b2BodyDef;
+		 bodyDef.type = b2Body.b2_dynamicBody;
+		 scale = 13;
+		 
+		fixDef.shape = new b2PolygonShape;
+		fixDef.shape.SetAsBox(20,20);
+
+         bodyDef.position.x = (canvaswidth-scale*2)*Math.random() + scale*2;
+		 bodyDef.position.y = canvasheight- (scale*Math.random() +scale*2);
+		 
+		var body = world.CreateBody(bodyDef).CreateFixture(fixDef);
 	 }
 
 	 // Update the world display and add new objects as appropriate
@@ -120,6 +145,20 @@
 
 				 // draw a circle - a solid color, so we don't worry about rotation
 				 if (shapeType == b2Shape.e_circleShape) {
+					var edge = b.GetContactList();
+					while (edge)  {
+						var other = edge.other;
+						if (other.GetType() == b2Body.b2_dynamicBody) {
+							var othershape = other.GetFixtureList().GetShape();
+							if (othershape.GetType() == b2Shape.e_polygonShape) {
+								world.DestroyBody(other);
+								break;	
+							 }
+						 }
+						 edge = edge.next;
+					 }	
+				 
+				 
 					context.strokeStyle = "#CCCCCC";
 					context.fillStyle = "#FF8800";
 					context.beginPath();
@@ -127,6 +166,15 @@
 					context.closePath();
 					context.stroke();
 					context.fill();
+				 }
+				 else if(shapeType == b2Shape.e_polygonShape){
+						context.strokeStyle = "#a4a4a4";
+						context.fillStyle = '#'+Math.floor(Math.random()*16777215).toString(16);
+						context.beginPath();
+						context.rect(position.x, flipy, 30, 30);
+						context.closePath();
+						context.stroke();
+						context.fill();
 				 }
 
 			 }
