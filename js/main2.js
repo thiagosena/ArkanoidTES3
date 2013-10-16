@@ -46,14 +46,29 @@
 		
 		bodyDef2.position.Set(canvaswidth, canvasheight/2);
 		world.CreateBody(bodyDef2).CreateFixture(fixDef2);
-
+		
+		
+		//create the paddle
+		
+		var bodyDefPaddle = new b2BodyDef;
+		bodyDefPaddle.type = b2Body.b2_dynamicBody;
+		bodyDefPaddle.position.Set(canvaswidth/2, 20);
+		var fixDefPaddle = new b2FixtureDef;
+		 fixDefPaddle.density = 1;
+		fixDefPaddle.friction = 0;
+		fixDefPaddle.restitution = 1;
+		
+		fixDefPaddle.shape = new b2PolygonShape;
+		fixDefPaddle.shape.SetAsBox(95,10);
+		 
+		world.CreateBody(bodyDefPaddle).CreateFixture(fixDefPaddle);
 		
 		// Start dropping some shapes
 		addCircle();
-		
-		var blocksqnt = 40;
-		for (var i=0;i<blocksqnt;i++){ 
-			addBlock();
+		for (var i=0; i<4;i++){	
+			for(var j=0; j<15;j++ ){
+				addBlock(20+(36*j),350 - 36*i);
+			}
 		}
 
 	    //setup debug draw
@@ -72,22 +87,21 @@
 		 fixDef.friction = 0;
 		 fixDef.restitution = 1;
 		 
-		 var bodyDef = new b2BodyDef;
 		 bodyDef.type = b2Body.b2_dynamicBody;
-		 scale = 13;
+		 scale = 9;
 		 fixDef.shape = new b2CircleShape(scale);
-         bodyDef.position.x = (canvaswidth-scale*2)*Math.random() + scale*2;
-		 bodyDef.position.y = canvasheight- (scale*Math.random() +scale*2);
+		 
+		 bodyDef.position.Set(canvaswidth/2,canvasheight/2);
 			
 			
 		var body = world.CreateBody(bodyDef).CreateFixture(fixDef);
 		body.GetBody().ApplyImpulse(
-			new b2Vec2(-999999, 629393),
+			new b2Vec2(600000, -777777),
 			body.GetBody().GetWorldCenter()
 		);
 	 }
 	 
-	function addBlock() {
+	function addBlock(x,y) {
 		 // create basic block
          var bodyDef = new b2BodyDef;
 		 var fixDef = new b2FixtureDef;
@@ -95,18 +109,15 @@
 		 fixDef.friction = 0;
 		 fixDef.restitution = 1;
 		 
-		 var bodyDef = new b2BodyDef;
-		 bodyDef.type = b2Body.b2_dynamicBody;
+		 bodyDef.type = b2Body.b2_kinematicBody;
 		 scale = 13;
 		 
 		fixDef.shape = new b2PolygonShape;
-		fixDef.shape.SetAsBox(20,20);
+		fixDef.shape.SetAsBox(30,15);
 
-         bodyDef.position.x = (canvaswidth-scale*2)*Math.random() + scale*2;
-		 bodyDef.position.y = canvasheight- (scale*Math.random() +scale*2);
-		 
+		bodyDef.position.Set(x,y);
 		var body = world.CreateBody(bodyDef).CreateFixture(fixDef);
-	 }
+	}
 
 	 // Update the world display and add new objects as appropriate
 	 function update2() {
@@ -126,13 +137,13 @@
 			node = node.GetNext();
 			// Destroy objects that have floated off the screen
 			var position = b.GetPosition();
-			if (position.x < -deletionBuffer || position.x >(canvaswidth+4)) {
-				world.DestroyBody(b);//inserir aqui o código pra dizer que o user perdeu
-				continue;
-		 	}
+			//if (position.x < -deletionBuffer || position.x >(canvaswidth+4)) {
+				//world.DestroyBody(b);//inserir aqui o código pra dizer que o user perdeu
+				//continue;
+		 	//}
 
 			// Draw the dynamic objects
-			if (b.GetType() == b2Body.b2_dynamicBody) {
+			if (b.GetType() == b2Body.b2_dynamicBody) {//desenhando os objetos que se movem
 
 				// Canvas Y coordinates start at opposite location, so we flip
 				var flipy = canvasheight - position.y;
@@ -145,19 +156,6 @@
 
 				 // draw a circle - a solid color, so we don't worry about rotation
 				 if (shapeType == b2Shape.e_circleShape) {
-					var edge = b.GetContactList();
-					while (edge)  {
-						var other = edge.other;
-						if (other.GetType() == b2Body.b2_dynamicBody) {
-							var othershape = other.GetFixtureList().GetShape();
-							if (othershape.GetType() == b2Shape.e_polygonShape) {
-								world.DestroyBody(other);
-								break;	
-							 }
-						 }
-						 edge = edge.next;
-					 }	
-				 
 				 
 					context.strokeStyle = "#CCCCCC";
 					context.fillStyle = "#FF8800";
@@ -166,18 +164,60 @@
 					context.closePath();
 					context.stroke();
 					context.fill();
+					
+					if(position.y < 0){
+						//window.alert("perdeu!");
+					}
+					
 				 }
-				 else if(shapeType == b2Shape.e_polygonShape){
+				 else if(shapeType == b2Shape.e_polygonShape && b.GetType() == b2Body.b2_dynamicBody){
 						context.strokeStyle = "#a4a4a4";
-						context.fillStyle = '#'+Math.floor(Math.random()*16777215).toString(16);
+						context.fillStyle = "#a122FF";
 						context.beginPath();
-						context.rect(position.x, flipy, 30, 30);
+						context.rect(position.x, flipy, 95, 10);
 						context.closePath();
 						context.stroke();
 						context.fill();
+						
+	
 				 }
 
 			 }
+			 else if(b.GetType() == b2Body.b2_kinematicBody){//desenhando os blocos
+				// Canvas Y coordinates start at opposite location, so we flip
+				var flipy = canvasheight - position.y;
+				var fl = b.GetFixtureList();
+				if (!fl) {
+					continue;
+				}
+				var shape = fl.GetShape();
+				var shapeType = shape.GetType();
+
+				 // draw the blocks
+				 if (shapeType == b2Shape.e_polygonShape) {
+					context.strokeStyle = "#a4a4a4";
+						context.fillStyle = '#'+Math.floor(Math.random()*16777215).toString(16);
+						context.beginPath();
+						context.rect(position.x, flipy, 30, 15);
+						context.closePath();
+						context.stroke();
+						context.fill();
+				 
+				 }
+				
+			 }
+			var edge = b.GetContactList();
+			while (edge)  {
+				var other = edge.other;
+				if (other.GetType() == b2Body.b2_kinematicBody) {
+					var othershape = other.GetFixtureList().GetShape();
+					if (othershape.GetType() == b2Shape.e_polygonShape) {
+						world.DestroyBody(other);
+						break;	
+					 }
+				 }
+				 edge = edge.next;
+			}
 		 }
 	 }
 
