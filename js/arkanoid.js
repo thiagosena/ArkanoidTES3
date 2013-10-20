@@ -1,3 +1,28 @@
+	 function addCircle(world,canvaswidth,canvasheight) {
+		 // create basic circle
+         var bodyDef = new b2BodyDef;
+		 var fixDef = new b2FixtureDef;
+		 fixDef.density = 1;
+		 fixDef.friction = 0;
+		 fixDef.restitution = 1;
+		 
+		 bodyDef.type = b2Body.b2_dynamicBody;
+		 scale = 9;
+		 fixDef.shape = new b2CircleShape(scale);
+		 
+		 bodyDef.position.Set(canvaswidth/2,canvasheight/2);
+			
+			
+		var body = world.CreateBody(bodyDef).CreateFixture(fixDef);
+		body.GetBody().ApplyImpulse(
+			new b2Vec2(60, -777777),
+			body.GetBody().GetWorldCenter()
+		);
+	 }
+
+
+
+
 function init() {
 	
 		var globalBodyPaddle;
@@ -66,7 +91,7 @@ function init() {
 		globalBodyPaddle = world.CreateBody(bodyDefPaddle).CreateFixture(fixDefPaddle);
 		
 		// Start dropping some shapes
-		addCircle();
+		addCircle(world,canvaswidth,canvasheight);
 		for (var i=0; i<4;i++){	
 			for(var j=0; j<15;j++ ){
 				addBlock(20+(36*j),350 - 36*i);
@@ -81,27 +106,7 @@ function init() {
 	 // The refresh rate of the display. Change the number to make it go faster
 		z = window.setInterval(update2, (1000 / 500));
 
-	 function addCircle() {
-		 // create basic circle
-         var bodyDef = new b2BodyDef;
-		 var fixDef = new b2FixtureDef;
-		 fixDef.density = 1;
-		 fixDef.friction = 0;
-		 fixDef.restitution = 1;
-		 
-		 bodyDef.type = b2Body.b2_dynamicBody;
-		 scale = 9;
-		 fixDef.shape = new b2CircleShape(scale);
-		 
-		 bodyDef.position.Set(canvaswidth/2,canvasheight/2);
-			
-			
-		var body = world.CreateBody(bodyDef).CreateFixture(fixDef);
-		body.GetBody().ApplyImpulse(
-			new b2Vec2(60, -777777),
-			body.GetBody().GetWorldCenter()
-		);
-	 }
+
 	 
 	function addBlock(x,y) {
 		 // create basic block
