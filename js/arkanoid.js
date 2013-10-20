@@ -20,6 +20,24 @@
 		);
 	 }
 
+function addBlock(world,x,y) {
+		 // create basic block
+         var bodyDef = new b2BodyDef;
+		 var fixDef = new b2FixtureDef;
+		 fixDef.density = 1;
+		 fixDef.friction = 0;
+		 fixDef.restitution = 1;
+		 
+		 bodyDef.type = b2Body.b2_kinematicBody;
+		 scale = 13;
+		 
+		fixDef.shape = new b2PolygonShape;
+		fixDef.shape.SetAsBox(30,15);
+
+		bodyDef.position.Set(x,y);
+		var body = world.CreateBody(bodyDef).CreateFixture(fixDef);
+	}
+
 
 
 
@@ -94,7 +112,7 @@ function init() {
 		addCircle(world,canvaswidth,canvasheight);
 		for (var i=0; i<4;i++){	
 			for(var j=0; j<15;j++ ){
-				addBlock(20+(36*j),350 - 36*i);
+				addBlock(world,20+(36*j),350 - 36*i);
 			}
 		}
 
@@ -108,23 +126,7 @@ function init() {
 
 
 	 
-	function addBlock(x,y) {
-		 // create basic block
-         var bodyDef = new b2BodyDef;
-		 var fixDef = new b2FixtureDef;
-		 fixDef.density = 1;
-		 fixDef.friction = 0;
-		 fixDef.restitution = 1;
-		 
-		 bodyDef.type = b2Body.b2_kinematicBody;
-		 scale = 13;
-		 
-		fixDef.shape = new b2PolygonShape;
-		fixDef.shape.SetAsBox(30,15);
-
-		bodyDef.position.Set(x,y);
-		var body = world.CreateBody(bodyDef).CreateFixture(fixDef);
-	}
+	
 
 	 // Update the world display and add new objects as appropriate
 	 function update2() {
