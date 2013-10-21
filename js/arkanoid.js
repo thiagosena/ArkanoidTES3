@@ -7,7 +7,7 @@
 		 fixDef.restitution = 1;
 		 
 		 bodyDef.type = b2Body.b2_dynamicBody;
-		 scale = 8;
+		 scale = 6;
 		 fixDef.shape = new b2CircleShape(scale);
 		 
 		 bodyDef.position.Set(canvaswidth/2,canvasheight/2);
@@ -68,7 +68,7 @@ function addBlock(world,x,y) {
 				 if (shapeType == b2Shape.e_circleShape) {
 				 
 					context.strokeStyle = "#FFFFFF";
-					context.fillStyle = "#aaaaaa";
+					context.fillStyle = "#FFFFFF";
 					context.beginPath();
 					context.arc(position.x,flipy,shape.GetRadius(),0,Math.PI*2,true);
 					context.closePath();
