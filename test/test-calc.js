@@ -1,6 +1,6 @@
 var assert = require('assert'),
     vows = require('vows'),
-    seriousCalculations = require('./js/calc');
+    seriousCalculations = require('/home/travis/build/thiagosena/ArkanoidTES3/js/calc');
 
 vows.describe('calc').addBatch({
   'When performing serious calculations': {
