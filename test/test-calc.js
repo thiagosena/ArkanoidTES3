@@ -1,23 +1,25 @@
 var assert = require('assert'),
     vows = require('vows'),
-    seriousCalculations = require('/home/travis/build/thiagosena/ArkanoidTES3/js/calc');
+    audioTest = require('/home/travis/build/thiagosena/ArkanoidTES3/js/audio');
+	 arkanoidTest = require('/home/travis/build/thiagosena/ArkanoidTES3/js/arkanoid');
+   
 
-vows.describe('calc').addBatch({
-  'When performing serious calculations': {
-    topic: seriousCalculations.performSeriousCalculations(4),
+vows.describe('audio').addBatch({
+  'When performing play': {
+    topic: audioTest.play(),
     'result should be valid': function (result) {
       assert.isNumber(result);
-      assert.equal(result, 8);
+      assert.equal(result, true);
     }
   }
 }).export(module);
 
-vows.describe('calc').addBatch({
-	'When performing function add calculations': {
-		topic: seriousCalculations.addIntoCalculations(2, 2),
+vows.describe('audio').addBatch({
+	'performing play Destroy': {
+		topic: audioTest.playDestroySound(),
 	    'result should be valid': function (result) {
 	      assert.isNumber(result);
-	      assert.equal(result, 4);
+	      assert.equal(result, true);
 	    }
 	}
 }).export(module);

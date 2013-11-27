@@ -1,24 +1,24 @@
-	 function addCircle(world,canvaswidth,canvasheight) {
-		 // create basic circle
-         var bodyDef = new b2BodyDef;
-		 var fixDef = new b2FixtureDef;
-		 fixDef.density = 1;
-		 fixDef.friction = 0;
-		 fixDef.restitution = 1;
-		 
-		 bodyDef.type = b2Body.b2_dynamicBody;
-		 scale = 6;
-		 fixDef.shape = new b2CircleShape(scale);
-		 
-		 bodyDef.position.Set(canvaswidth/2,canvasheight/2);
-			
-			
-		var body = world.CreateBody(bodyDef).CreateFixture(fixDef);
-		body.GetBody().ApplyImpulse(
-			new b2Vec2(60, -777777),
-			body.GetBody().GetWorldCenter()
-		);
-	 }
+ function addCircle(world,canvaswidth,canvasheight) {
+	 // create basic circle
+     var bodyDef = new b2BodyDef;
+	 var fixDef = new b2FixtureDef;
+	 fixDef.density = 1;
+	 fixDef.friction = 0;
+	 fixDef.restitution = 1;
+	 
+	 bodyDef.type = b2Body.b2_dynamicBody;
+	 scale = 6;
+	 fixDef.shape = new b2CircleShape(scale);
+	 
+	 bodyDef.position.Set(canvaswidth/2,canvasheight/2);
+		
+		
+	var body = world.CreateBody(bodyDef).CreateFixture(fixDef);
+	body.GetBody().ApplyImpulse(
+		new b2Vec2(60, -777777),
+		body.GetBody().GetWorldCenter()
+	);
+ }
 
 function addBlock(world,x,y) {
 		 // create basic block

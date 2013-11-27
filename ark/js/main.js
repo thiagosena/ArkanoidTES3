@@ -94,13 +94,13 @@ function createBall() {
   ball = world.CreateBody(bodyDef);
   var fixture = ball.CreateFixture(fixtureDef);
 
-  ball.ApplyImpulse(new b2Vec2(100, 0),
+  ball.ApplyImpulse(new b2Vec2(2, 0),
       ball.GetWorldCenter());
 }
 
 function createPaddle() {
   var bodyDef = new b2BodyDef;
-  bodyDef.type = b2Body.b2_kinematicBody;
+  bodyDef.type = b2Body.b2_dynamicBody;
   bodyDef.position.x = 399 / scale;
   bodyDef.position.y = 530 / scale;
   var fixtureDef = new b2FixtureDef;
@@ -111,6 +111,7 @@ function createPaddle() {
   fixtureDef.shape.SetAsBox(40 / scale, 7 / scale);
   paddle = world.CreateBody(bodyDef);
   var fixture = paddle.CreateFixture(fixtureDef);
+
 }
 
 function handleKeyDown(e) {
