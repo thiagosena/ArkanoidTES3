@@ -10,14 +10,18 @@
     "url": "https://github.com/thiagosena/ArkanoidTES3.git"
   },
   "scripts": {
-    "test": "vows --spec"
+    "test": "make test"
   },
   "engines": {
-    "node": ">= 0.4"
+    "node": ">= 0.8.6",
+    "npm": "1.1.65"
   },
   "dependencies": {},
   "devDependencies": {
-	"coveralls": "2.3.0",
-	"vows": "0.6.x"
+    "mocha-lcov-reporter": "0.0.1",
+    "mocha": "1.8.1",
+    "should": "1.1.0",
+    "istanbul": "0.1.45",
+    "jshint": "2.1.3"
   }
 }
