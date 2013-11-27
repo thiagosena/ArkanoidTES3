@@ -4,21 +4,10 @@ var assert = require('assert'),
    
 
 vows.describe('audio').addBatch({
-  'When performing play': {
-    topic: arkanoidTest.addCircle(),
+  'When performing playDestroySound': {
+    topic: arkanoidTest.init(),
     'result should be valid': function (result) {
-      !assert.isNumber(result);
       assert.equal(result, true);
     }
   }
-}).export(module);
-
-vows.describe('audio').addBatch({
-	'performing play Destroy': {
-		topic: arkanoidTest.addBlock(),
-	    'result should be valid': function (result) {
-	      !assert.isNumber(result);
-	      assert.equal(result, true);
-	    }
-	}
 }).export(module);
