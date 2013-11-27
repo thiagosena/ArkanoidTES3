@@ -11,3 +11,13 @@ vows.describe('calc').addBatch({
     }
   }
 }).export(module);
+
+vows.describe('calc').addBatch({
+	'When performing function add calculations': {
+		topic: seriousCalculations.addIntoCalculations(2, 2),
+	    'result should be valid': function (result) {
+	      assert.isNumber(result);
+	      assert.equal(result, 4);
+	    }
+	}
+}).export(module);

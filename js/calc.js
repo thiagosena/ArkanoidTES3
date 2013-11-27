@@ -4,3 +4,7 @@ exports.performSeriousCalculations = function (x) {
   //
   return 2 * x;
 };
+
+exports.addIntoCalculations = function(a,b){
+	return a+b;
+}
