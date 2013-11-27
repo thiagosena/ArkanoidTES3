@@ -1,21 +1,22 @@
 {
-  "author": "Thiago Sena <lord.sena@gmail.com> (http://www.lcc.ufrn.br/~thiagoalves)",
-  "name": "utest",
-  "description": "The minimal unit testing library.",
+  "author": "Thiago Sena <lord.sena@gmail.com>",
+  "name": "ArkanoidTES3",
+  "description": "Test Cases for ArkanoidTES3",
   "homepage": "https://github.com/thiagosena/ArkanoidTES3",
   "version": "0.0.1",
+  "main": "./js/cal",
   "repository": {
-    "url": ""
+	"type": "git",
+    "url": "https://github.com/thiagosena/ArkanoidTES3.git"
   },
-  "main": "./index",
   "scripts": {
-    "test": "make test"
+    "test": "vows --spec"
   },
   "engines": {
-    "node": "*"
+    "node": ">= 0.4"
   },
-  "browser": "./browser.js",
   "dependencies": {},
-  "devDependencies": {},
-  "optionalDependencies": {}
+  "devDependencies": {
+	"vows": "0.6.x"
+  }
 }
