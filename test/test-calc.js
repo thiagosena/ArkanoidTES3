@@ -1,14 +1,13 @@
 var assert = require('assert'),
     vows = require('vows'),
-    audioTest = require('/home/travis/build/thiagosena/ArkanoidTES3/js/audio');
 	 arkanoidTest = require('/home/travis/build/thiagosena/ArkanoidTES3/js/arkanoid');
    
 
 vows.describe('audio').addBatch({
   'When performing play': {
-    topic: audioTest.play(),
+    topic: arkanoidTest.addCircle(),
     'result should be valid': function (result) {
-      assert.isNumber(result);
+      !assert.isNumber(result);
       assert.equal(result, true);
     }
   }
@@ -16,9 +15,9 @@ vows.describe('audio').addBatch({
 
 vows.describe('audio').addBatch({
 	'performing play Destroy': {
-		topic: audioTest.playDestroySound(),
+		topic: arkanoidTest.addBlock(),
 	    'result should be valid': function (result) {
-	      assert.isNumber(result);
+	      !assert.isNumber(result);
 	      assert.equal(result, true);
 	    }
 	}

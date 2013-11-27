@@ -4,7 +4,7 @@
   "description": "Test Cases for ArkanoidTES3",
   "homepage": "https://github.com/thiagosena/ArkanoidTES3",
   "version": "0.0.1",
-  "main": "./js/cal",
+  "main": "./js/arkanoid",
   "repository": {
 	"type": "git",
     "url": "https://github.com/thiagosena/ArkanoidTES3.git"
