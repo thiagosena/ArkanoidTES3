@@ -1,5 +1,5 @@
 ArkanoidTES3
 ============
 
-<a href='https://coveralls.io/r/Bledson/ArkanoidTES3'><img src='https://coveralls.io/repos/Bledson/ArkanoidTES3/badge.png' alt='Coverage Status' /></a>
+[![Coverage Status](https://coveralls.io/repos/Bledson/ArkanoidTES3/badge.png?branch=master)](https://coveralls.io/r/Bledson/ArkanoidTES3?branch=master)
 
