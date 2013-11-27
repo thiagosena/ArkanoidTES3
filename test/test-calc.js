@@ -1,9 +1,10 @@
 var assert = require('assert'),
     vows = require('vows'),
+	 box2d = require('/home/travis/build/thiagosena/ArkanoidTES3/js/vendor/box2d'),
 	 arkanoidTest = require('/home/travis/build/thiagosena/ArkanoidTES3/js/arkanoid');
 
-var gravity = new arkanoidTest.b2Vec2(0, 0);
-var world = new arkanoidTest.b2World(gravity, false);
+var gravity = new box2d.b2Vec2(0, 0);
+var world = new box2d.b2World(gravity, false);
 
 vows.describe('audio').addBatch({
   'When performing playDestroySound': {
