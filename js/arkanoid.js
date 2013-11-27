@@ -136,7 +136,7 @@ function addBlock(world,x,y) {
 
 
 
-function init() {
+exports.initFunction = function () {
     
         play();
 

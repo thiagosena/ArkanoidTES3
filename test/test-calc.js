@@ -1,16 +1,23 @@
 var assert = require('assert'),
     vows = require('vows'),
-	 box2d = require('/home/travis/build/thiagosena/ArkanoidTES3/js/vendor/box2d'),
-	 arkanoidTest = require('/home/travis/build/thiagosena/ArkanoidTES3/js/arkanoid');
+    seriousCalculations = require('/home/travis/build/thiagosena/ArkanoidTES3/js/calc');
 
-var gravity = new box2d.b2Vec2(0, 0);
-var world = new box2d.b2World(gravity, false);
-
-vows.describe('audio').addBatch({
-  'When performing playDestroySound': {
-    topic: arkanoidTest.addBlock(world, 20, 350),
+vows.describe('calc').addBatch({
+  'When performing serious calculations': {
+    topic: seriousCalculations.performSeriousCalculations(4),
     'result should be valid': function (result) {
-      assert.equal(result, true);
+      assert.isNumber(result);
+      assert.equal(result, 8);
     }
   }
+}).export(module);
+
+vows.describe('calc').addBatch({
+	'When performing function add calculations': {
+		topic: seriousCalculations.addIntoCalculations(2, 2),
+	    'result should be valid': function (result) {
+	      assert.isNumber(result);
+	      assert.equal(result, 4);
+	    }
+	}
 }).export(module);
