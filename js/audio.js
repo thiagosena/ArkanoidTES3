@@ -1,4 +1,4 @@
-function play(){
+function startBackgroundMusic(){
 	document.getElementById('ambient').play();
 }
 

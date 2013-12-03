@@ -2,10 +2,10 @@ REPORTER = spec
 test:
 	@$(MAKE) lint
 	@echo TRAVIS_JOB_ID $(TRAVIS_JOB_ID)
-	@NODE_ENV=test ./node_modules/.bin/mocha -b --reporter $(REPORTER)
+	@NODE_ENV=test ./node_modules/.bin/karma start karma.conf.jshint $(REPORTER)
 
 lint:
-	./node_modules/.bin/jshint ./js ./test ./arq.js
+	./node_modules/.bin/jshint ./js ./tests ./arkanoid.js ./audio.js
 
 test-cov:
 	$(MAKE) lint
