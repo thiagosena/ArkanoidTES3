@@ -29,3 +29,8 @@ In this sample, we use the [Travis CI](https://travis-ci.org) for continuous int
 * [ark-spec.js](https://github.com/thiagosena/ArkanoidTES3/blob/master/tests/ark-spec.js) - test implementation for the file arkanoid.js
 * [audio-spec.js](https://github.com/thiagosena/ArkanoidTES3/blob/master/tests/audio-spec.js) - test implementation for the file audio.js
 <br />
+
+<h3>Contributors</h3>
+* [Arthur Macedo](https://github.com/arthurmz)
+* [Bledson Kivy](https://github.com/Bledson)
+* [Thiago Sena](https://github.com/thiagosena)
