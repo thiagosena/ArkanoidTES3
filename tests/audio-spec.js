@@ -1,21 +1,27 @@
 describe("HTMLMediaElement", function() {
-  var player;
+  var playerAmbient;
+  var playerDestroy;
   var element;
   var domElem;
-  var NETWORK_EMPTY = 0, NETWORK_IDLE = 1, NETWORK_LOADING = 2, NETWORK_NO_SOURCE = 3;
-  var HAVE_NOTHING = 0, HAVE_METADATA = 1, HAVE_CURRENT_DATA = 2, HAVE_FUTURE_DATA = 3, HAVE_ENOUGH_DATA = 4;
-  var METADATA_TIMEOUT = 500, ENOUGH_DATA_TIMEOUT = 1000;
+  var elementDestroy;
+  var domElemDestroy;
 
   beforeEach(function() {
-    $('body').prepend('<audio id="ambient">' +
+    $('body').prepend('<audio id="destroy">' +
       '<source src="../sound/tiro.ogg" type="audio/ogg" />' +
       '</audio><audio id="ambient">' +
       '<source src="../sound/WringThatNeck.ogg" type="audio/ogg" />' +
       '</audio>');
-    player = new MediaElementPlayer('#ambient', {
+    playerAmbient = new MediaElementPlayer('#ambient', {
         success: function(mediaElement, domObject) {
             element = mediaElement;
             domElem = domObject;
+        }
+    });
+    playerDestroy = new MediaElementPlayer('#destroy', {
+        success: function(mediaElement, domObject) {
+            elementDestroy = mediaElement;
+            domElemDestroy = domObject;
         }
     });
     waitsFor(function() {
@@ -24,25 +30,36 @@ describe("HTMLMediaElement", function() {
   });
   
   afterEach(function() {
-    player.remove();
-    player = null;
+    playerAmbient.remove();
+    playerAmbient = null;
+    playerDestroy.remove();
+    playerDestroy = null;
     element = null;
     domElem = null;
+    elementDestroy = null;
+    domElemDestroy = null;
   });
 
   it("o plugin deve ser tipo pluginType native", function() {
     expect(element.pluginType).toEqual('native');
+    expect(elementDestroy.pluginType).toEqual('native');
   });
 
   it("colocar como mudo ou não", function() {
     element.setMuted(true);
+    elementDestroy.setMuted(true);
     expect(element.muted).toEqual(true);
+    expect(elementDestroy.muted).toEqual(true);
+
     element.setMuted(false);
+    elementDestroy.setMuted(false);
     expect(element.muted).toEqual(false);
+    expect(elementDestroy.muted).toEqual(false);
   });
 
   it("mostrar o tempo corrente do audio", function() {
     expect(element.currentTime).toEqual(0);
+    expect(elementDestroy.currentTime).toEqual(0);
   });
 
   it("definir o estado de play ou pausado", function() {
@@ -50,5 +67,10 @@ describe("HTMLMediaElement", function() {
     expect(element.paused).toEqual(false);
     element.pause();
     expect(element.paused).toEqual(true);
+
+    elementDestroy.play();
+    expect(elementDestroy.paused).toEqual(false);
+    elementDestroy.pause();
+    expect(elementDestroy.paused).toEqual(true);
   });
 });
