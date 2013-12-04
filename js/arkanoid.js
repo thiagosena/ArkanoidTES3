@@ -26,7 +26,7 @@ this.addCircle=function(world,canvaswidth,canvasheight) {
     return false;
   }
   
-}
+};
 
 this.addBlock=function(world,x,y) {
 
@@ -51,7 +51,7 @@ this.addBlock=function(world,x,y) {
     return false;
   }
   
-}
+};
 
 //Chamada inumeras vezes por segundo
 //Redesenha os objetos modificados na tela
@@ -75,7 +75,7 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
     if (b.GetType() == b2Body.b2_dynamicBody) {
       
       var fl = b.GetFixtureList();
-      if (fl == null) {
+      if (fl === null) {
         continue;
       }
       var shape = fl.GetShape();
@@ -108,15 +108,15 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
    
     else if(b.GetType() == b2Body.b2_kinematicBody){//desenhando os blocos
       
-      fl = b.GetFixtureList();
-      if (fl == null) {
+      var fl2 = b.GetFixtureList();
+      if (fl2 === null) {
        continue;
       }
-      var shape = fl.GetShape();
-      var shapeType = shape.GetType();
+      var shape2 = fl2.GetShape();
+      var shapeType2 = shape2.GetType();
 
       // draw the blocks
-      if (shapeType == b2Shape.e_polygonShape) {
+      if (shapeType2 == b2Shape.e_polygonShape) {
         context.strokeStyle = "#a4a4a4";
         context.fillStyle = '#'+Math.floor(Math.random()*16777215).toString(16);
         context.beginPath();
@@ -146,13 +146,13 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
   }
 
   //termine a fase
-  if (edge) {
+  if (node) {
     return true;
   }
   else{
     return false;
   }
-}
+};
 
 
 
@@ -213,10 +213,10 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
   fixDef2.friction = 0;
   fixDef2.restitution = 0;
 
-  var bodyDef2 = new b2BodyDef;
+  var bodyDef2 = new b2BodyDef();
   bodyDef2.type = b2Body.b2_staticBody;
 
-  fixDef2.shape = new b2PolygonShape;
+  fixDef2.shape = new b2PolygonShape();
   fixDef2.shape.SetAsBox(2,canvasheight);
 
   bodyDef2.position.Set(0, canvasheight/2);
@@ -228,15 +228,15 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
 
   //create the paddle
 
-  var bodyDefPaddle = new b2BodyDef;
+  var bodyDefPaddle = new b2BodyDef();
   bodyDefPaddle.type = b2Body.b2_dynamicBody;
   bodyDefPaddle.position.Set(canvaswidth/2, 20);
-  var fixDefPaddle = new b2FixtureDef;
+  var fixDefPaddle = new b2FixtureDef();
   fixDefPaddle.density = 1;
   fixDefPaddle.friction = 0;
   fixDefPaddle.restitution = 1;
 
-  fixDefPaddle.shape = new b2PolygonShape;
+  fixDefPaddle.shape = new b2PolygonShape();
   fixDefPaddle.shape.SetAsBox(95,10);
 
   globalBodyPaddle = world.CreateBody(bodyDefPaddle).CreateFixture(fixDefPaddle);
@@ -253,7 +253,7 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
 
   // Setando o tempo de refresh, e a função de callBack
   
-  window.setInterval(function(){mainclass.processObjects(world, context,canvaswidth,canvasheight)}, (1000 / 500));
+  window.setInterval(function(){mainclass.processObjects(world, context,canvaswidth,canvasheight);}, (1000 / 500));
 
   //Configurando o teclado
   $( "#target" ).keypress(function( event ) {
