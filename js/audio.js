@@ -1,7 +1,12 @@
-function startBackgroundMusic(){
-	document.getElementById('ambient').play();
+function Song(){
 }
 
-function playDestroySound(){
-	document.getElementById('destroy').play();
+Song.prototype.startBackgroundMusic = function(){
+	this.currentlyPlayingSong = document.getElementById('ambient').play();
+	this.isPlaying = true;
+}
+
+Song.prototype.playDestroySound = function(){
+	this.currentlyPlayingSong = document.getElementById('destroy').play();
+	this.isPlaying = true;
 }

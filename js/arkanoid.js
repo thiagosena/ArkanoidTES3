@@ -168,7 +168,7 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
     }
     
     var edge = b.GetContactList();
-
+    var destroy = new Song();
     while (edge)  {
       var other = edge.other;
       
@@ -176,7 +176,7 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
         var othershape = other.GetFixtureList().GetShape();
 
         if (othershape.GetType() == b2Shape.e_polygonShape) {
-          playDestroySound();
+          destroy.playDestroySound();
           world.DestroyBody(other);
           break;	
         }
@@ -199,7 +199,8 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
 
 //===============================construtor===============================
   
-  startBackgroundMusic();
+  var music = new Song();
+  music.startBackgroundMusic();
 
   // Define the canvas
   var canvaselem = document.getElementById("canvas");

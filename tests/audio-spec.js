@@ -5,12 +5,13 @@ describe("HTMLMediaElement", function() {
   var domElem;
   var elementDestroy;
   var domElemDestroy;
+  var songDestroy;
 
   beforeEach(function() {
     $('body').prepend('<audio id="destroy">' +
-      '<source src="../sound/tiro.ogg" type="audio/ogg" />' +
+      '<source src="/sound/tiro.ogg" type="audio/ogg" />' +
       '</audio><audio id="ambient">' +
-      '<source src="../sound/WringThatNeck.ogg" type="audio/ogg" />' +
+      '<source src="/sound/WringThatNeck.ogg" type="audio/ogg" />' +
       '</audio>');
     playerAmbient = new MediaElementPlayer('#ambient', {
         success: function(mediaElement, domObject) {
@@ -27,8 +28,19 @@ describe("HTMLMediaElement", function() {
     waitsFor(function() {
       return element !== null;
     }, "MediaElement should have loaded", 5000);
+
+    songDestroy = new Song();
+
+    this.addMatchers({
+      toBePlaying: function(expectedSong) {
+        var player = this.actual;
+        return player.currentlyPlayingSong === expectedSong && 
+               player.isPlaying;
+      }
+    });
   });
   
+
   afterEach(function() {
     playerAmbient.remove();
     playerAmbient = null;
@@ -72,5 +84,10 @@ describe("HTMLMediaElement", function() {
     expect(elementDestroy.paused).toEqual(false);
     elementDestroy.pause();
     expect(elementDestroy.paused).toEqual(true);
+  });
+
+  it("testando a funcao playDestroySound", function(){
+    songDestroy.playDestroySound();
+    expect(songDestroy.isPlaying).toBeTruthy();
   });
 });
