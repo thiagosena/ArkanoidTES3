@@ -53,9 +53,24 @@ this.addBlock=function(world,x,y) {
   
 };
 
-this.pressKey=function(){
+this.addPaddle=function(world, canvaswidth){
+  //create the paddle
+  //Define the paddle
+  var globalBodyPaddle;
+  var bodyDefPaddle = new b2BodyDef();
+  bodyDefPaddle.type = b2Body.b2_dynamicBody;
+  bodyDefPaddle.position.Set(canvaswidth/2, 20);
+  var fixDefPaddle = new b2FixtureDef();
+  fixDefPaddle.density = 1;
+  fixDefPaddle.friction = 0;
+  fixDefPaddle.restitution = 1;
+
+  fixDefPaddle.shape = new b2PolygonShape();
+  fixDefPaddle.shape.SetAsBox(95,10);
+
+  globalBodyPaddle = world.CreateBody(bodyDefPaddle).CreateFixture(fixDefPaddle);
   //Configurando o teclado
-  $( "#target" ).keypress(function( event ) {
+  $( "body" ).keypress(function( event ) {
     if (event.which == 97 ) {
     //window.alert("voce apertou A");
       globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(-9999999, 0));
@@ -181,12 +196,10 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
 
 
 
+
 //===============================construtor===============================
   
   startBackgroundMusic();
-
-  //Define the paddle
-  var globalBodyPaddle;
 
   // Define the canvas
   var canvaselem = document.getElementById("canvas");
@@ -252,19 +265,7 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
 
 
   //create the paddle
-
-  var bodyDefPaddle = new b2BodyDef();
-  bodyDefPaddle.type = b2Body.b2_dynamicBody;
-  bodyDefPaddle.position.Set(canvaswidth/2, 20);
-  var fixDefPaddle = new b2FixtureDef();
-  fixDefPaddle.density = 1;
-  fixDefPaddle.friction = 0;
-  fixDefPaddle.restitution = 1;
-
-  fixDefPaddle.shape = new b2PolygonShape();
-  fixDefPaddle.shape.SetAsBox(95,10);
-
-  globalBodyPaddle = world.CreateBody(bodyDefPaddle).CreateFixture(fixDefPaddle);
+  mainclass.addPaddle(world,canvaswidth);
 
   // Putting the ball
   mainclass.addCircle(world,canvaswidth,canvasheight);
@@ -278,8 +279,6 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
 
   // Setando o tempo de refresh, e a função de callBack
   window.setInterval(function(){mainclass.processObjects(world, context,canvaswidth,canvasheight);}, (1000 / 500));
-
-  mainclass.pressKey();
 
 //======================Fim do construtor=================================================
   
