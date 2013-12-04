@@ -33,6 +33,51 @@ describe('The game arkanoid', function(){
 			var ark = new ArkanoidClass();
 			expect(ark.processObjects(world,contexto,ark.width,ark.height)).toEqual(false);
 		});
+
+		it("Apertando o A", function() {
+			var ark = new ArkanoidClass();		
+			var e = jQuery.Event("keyup");
+
+			// set the key that was pressed to the enter key
+			e.which = 97;
+
+			// trigger the event on the game element
+			$('#canvas').trigger(e);
+		});
+
+		it("Apertando o S", function() {
+			var ark = new ArkanoidClass();		
+			var e = jQuery.Event("keyup");
+
+			// set the key that was pressed to the enter key
+			e.which = 115;
+
+			// trigger the event on the game element
+			$('#canvas').trigger(e);
+		});
+
+		it("Apertando o D", function() {
+			var ark = new ArkanoidClass();		
+			var e = jQuery.Event("keyup");
+
+			// set the key that was pressed to the enter key
+			e.which = 100;
+
+			// trigger the event on the game element
+			$('#canvas').trigger(e);
+		});
+
+		it("Apertando o W", function() {
+			var ark = new ArkanoidClass();		
+			var e = jQuery.Event("keyup");
+
+			// set the key that was pressed to the enter key
+			e.which = 119;
+
+			// trigger the event on the game element
+			$('#canvas').trigger(e);
+		});
 	});
+	
 });
 
