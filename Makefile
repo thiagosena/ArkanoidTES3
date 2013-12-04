@@ -5,7 +5,7 @@ test:
 	@NODE_ENV=test ./node_modules/karma/bin/karma start karma.conf.js --browsers Firefox --single-run --reporters dots $(REPORTER)
 
 lint:
-	./node_modules/.bin/jshint ./js ./tests ./arkanoid.js ./audio.js
+	./node_modules/.bin/jshint ./tests ./js/arkanoid.js ./js/audio.js
 
 test-cov:
 	$(MAKE) lint
