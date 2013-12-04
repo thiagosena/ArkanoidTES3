@@ -12,6 +12,9 @@
   "scripts": {
     "test": "make test"
   },
+  "bin": {
+    "coveralls": "./bin/coveralls.js"
+  },
   "engines": {
     "node": ">= 0.8.6",
     "npm": "1.1.65"
@@ -21,7 +24,8 @@
     "request": "2.16.2",
     "lcov-parse": "0.0.4",
     "log-driver": "1.2.1",
-    "karma": "0.10.7"
+    "karma": "0.10.7",
+    "karma-coverage": "~0.1"
   },
   "devDependencies": {
     "sinon-restore": "1.0.0",
