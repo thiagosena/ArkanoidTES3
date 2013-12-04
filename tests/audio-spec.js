@@ -9,6 +9,8 @@ describe("HTMLMediaElement", function() {
   beforeEach(function() {
     $('body').prepend('<audio id="ambient">' +
       '<source src="../sound/tiro.ogg" type="audio/ogg" />' +
+      '</audio><audio id="ambient">' +
+      '<source src="../sound/WringThatNeck.ogg" type="audio/ogg" />' +
       '</audio>');
     player = new MediaElementPlayer('#ambient', {
         success: function(mediaElement, domObject) {

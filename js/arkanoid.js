@@ -53,6 +53,31 @@ this.addBlock=function(world,x,y) {
   
 };
 
+this.pressKey=function(){
+  //Configurando o teclado
+  $( "#target" ).keypress(function( event ) {
+    if (event.which == 97 ) {
+    //window.alert("voce apertou A");
+      globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(-9999999, 0));
+    }
+
+    if (event.which == 115 ) {
+    //window.alert("voce apertou S");
+      globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(0, -9999999));
+    }
+
+    if (event.which == 100 ) {
+    //window.alert("voce apertou D");
+      globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(9999999, 0));
+    }
+
+    if (event.which == 119 ) {
+    //window.alert("voce apertou W");
+      globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(0, 9999999));
+    }
+  });
+};
+
 //Chamada inumeras vezes por segundo
 //Redesenha os objetos modificados na tela
 this.processObjects=function(world, context, canvaswidth, canvasheight) {
@@ -252,31 +277,9 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
   }
 
   // Setando o tempo de refresh, e a função de callBack
-  
   window.setInterval(function(){mainclass.processObjects(world, context,canvaswidth,canvasheight);}, (1000 / 500));
 
-  //Configurando o teclado
-  $( "#target" ).keypress(function( event ) {
-    if (event.which == 97 ) {
-    //window.alert("voce apertou A");
-      globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(-9999999, 0));
-    }
-
-    if (event.which == 115 ) {
-    //window.alert("voce apertou S");
-      globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(0, -9999999));
-    }
-
-    if (event.which == 100 ) {
-    //window.alert("voce apertou D");
-      globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(9999999, 0));
-    }
-
-    if (event.which == 119 ) {
-    //window.alert("voce apertou W");
-      globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(0, 9999999));
-    }
-  });
+  mainclass.pressKey();
 
 //======================Fim do construtor=================================================
   
