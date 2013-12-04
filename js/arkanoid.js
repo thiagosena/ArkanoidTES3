@@ -4,8 +4,8 @@ var mainclass = this; //Referência a propria classe.
   
 this.addCircle=function(world,canvaswidth,canvasheight) {
   // create basic circle
-  var bodyDef = new b2BodyDef;
-  var fixDef = new b2FixtureDef;
+  var bodyDef = new b2BodyDef();
+  var fixDef = new b2FixtureDef();
   fixDef.density = 1;
   fixDef.friction = 0;
   fixDef.restitution = 1;
@@ -31,8 +31,8 @@ this.addCircle=function(world,canvaswidth,canvasheight) {
 this.addBlock=function(world,x,y) {
 
   // create basic block
-  var bodyDef = new b2BodyDef;
-  var fixDef = new b2FixtureDef;
+  var bodyDef = new b2BodyDef();
+  var fixDef = new b2FixtureDef();
   fixDef.density = 1;
   fixDef.friction = 0;
   fixDef.restitution = 1;
@@ -40,7 +40,7 @@ this.addBlock=function(world,x,y) {
   bodyDef.type = b2Body.b2_kinematicBody;
   scale = 13;
 
-  fixDef.shape = new b2PolygonShape;
+  fixDef.shape = new b2PolygonShape();
   fixDef.shape.SetAsBox(30,15);
   bodyDef.position.Set(x,y);
   var body = world.CreateBody(bodyDef).CreateFixture(fixDef);
@@ -76,54 +76,54 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
       
       var fl = b.GetFixtureList();
       if (fl == null) {
-	      continue;
+        continue;
       }
       var shape = fl.GetShape();
       var shapeType = shape.GetType();
       
       // desenhando a bola com uma cor sólida, não é necessário se preocupar com a rotação
       if (shapeType == b2Shape.e_circleShape) {
-      	context.strokeStyle = "#FFFFFF";
-      	context.fillStyle = "#FFFFFF";
-      	context.beginPath();
-      	context.arc(position.x,canvasheight - position.y,shape.GetRadius(),0,Math.PI*2,true);
-      	context.closePath();
-      	context.stroke();
-      	context.fill();
-      	if(position.y < 0){
+        context.strokeStyle = "#FFFFFF";
+        context.fillStyle = "#FFFFFF";
+        context.beginPath();
+        context.arc(position.x,canvasheight - position.y,shape.GetRadius(),0,Math.PI*2,true);
+        context.closePath();
+        context.stroke();
+        context.fill();
+        if(position.y < 0){
 
-      	}
+        }
       }
       else if(shapeType == b2Shape.e_polygonShape && b.GetType() == b2Body.b2_dynamicBody){
-      	context.strokeStyle = "#FFFFFF";
-      	context.fillStyle = "#000000";
-      	context.beginPath();
-      	context.rect(position.x, canvasheight - position.y, 95, 10);
-      	context.closePath();
-      	context.stroke();
-      	context.fill();
+        context.strokeStyle = "#FFFFFF";
+        context.fillStyle = "#000000";
+        context.beginPath();
+        context.rect(position.x, canvasheight - position.y, 95, 10);
+        context.closePath();
+        context.stroke();
+        context.fill();
       }
     }
    
    
     else if(b.GetType() == b2Body.b2_kinematicBody){//desenhando os blocos
       
-      var fl = b.GetFixtureList();
+      fl = b.GetFixtureList();
       if (fl == null) {
-	     continue;
+       continue;
       }
       var shape = fl.GetShape();
       var shapeType = shape.GetType();
 
       // draw the blocks
       if (shapeType == b2Shape.e_polygonShape) {
-      	context.strokeStyle = "#a4a4a4";
-      	context.fillStyle = '#'+Math.floor(Math.random()*16777215).toString(16);
-      	context.beginPath();
-      	context.rect(position.x, canvasheight - position.y, 30, 15);
-      	context.closePath();
-      	context.stroke();
-      	context.fill();
+        context.strokeStyle = "#a4a4a4";
+        context.fillStyle = '#'+Math.floor(Math.random()*16777215).toString(16);
+        context.beginPath();
+        context.rect(position.x, canvasheight - position.y, 30, 15);
+        context.closePath();
+        context.stroke();
+        context.fill();
       }
     }
     
@@ -133,13 +133,13 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
       var other = edge.other;
       
       if (other.GetType() == b2Body.b2_kinematicBody) {
-  	    var othershape = other.GetFixtureList().GetShape();
-  	
-      	if (othershape.GetType() == b2Shape.e_polygonShape) {
-      	  playDestroySound();
-      	  world.DestroyBody(other);
-      	  break;	
-      	}
+        var othershape = other.GetFixtureList().GetShape();
+
+        if (othershape.GetType() == b2Shape.e_polygonShape) {
+          playDestroySound();
+          world.DestroyBody(other);
+          break;	
+        }
       }
       edge = edge.next;
     }
@@ -190,15 +190,15 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
   var deletionBuffer = 4;
 
   //create ground and roof
-  var fixDef = new b2FixtureDef;
+  var fixDef = new b2FixtureDef();
   fixDef.density = 1;
   fixDef.friction = 0;
   fixDef.restitution = 0;
 
-  var bodyDef = new b2BodyDef;
+  var bodyDef = new b2BodyDef();
   bodyDef.type = b2Body.b2_staticBody;
 
-  fixDef.shape = new b2PolygonShape;
+  fixDef.shape = new b2PolygonShape();
   fixDef.shape.SetAsBox(canvaswidth/2,2);
 
   bodyDef.position.Set(canvaswidth/2, -30);
@@ -208,7 +208,7 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
   world.CreateBody(bodyDef).CreateFixture(fixDef);
 
   //create walls
-  var fixDef2 = new b2FixtureDef;
+  var fixDef2 = new b2FixtureDef();
   fixDef2.density = 1;
   fixDef2.friction = 0;
   fixDef2.restitution = 0;
