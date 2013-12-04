@@ -10,7 +10,7 @@
     "url": "https://github.com/thiagosena/ArkanoidTES3.git"
   },
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start karma.conf.js --singleRun=true",
+    "test": "./node_modules/karma/bin/karma start karma.conf.js --browsers Firefox --singleRun=true",
     "test-ci": "npm test && npm run send-to-coveralls",
     "send-to-coveralls": "find coverage -name 'lcov.info' -print0 | xargs -0 cat | ./node_modules/coveralls/bin/coveralls.js"
   },
