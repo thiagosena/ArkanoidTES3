@@ -259,22 +259,22 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
   $( "#target" ).keypress(function( event ) {
     if (event.which == 97 ) {
     //window.alert("voce apertou A");
-    globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(-9999999, 0));
-
+      globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(-9999999, 0));
     }
+
     if (event.which == 115 ) {
     //window.alert("voce apertou S");
-
-    globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(0, -9999999));
+      globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(0, -9999999));
     }
+
     if (event.which == 100 ) {
     //window.alert("voce apertou D");
-
-    globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(9999999, 0));
+      globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(9999999, 0));
     }
+
     if (event.which == 119 ) {
     //window.alert("voce apertou W");
-    globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(0, 9999999));
+      globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(0, 9999999));
     }
   });
 
