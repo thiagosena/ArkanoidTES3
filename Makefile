@@ -2,7 +2,7 @@ REPORTER = spec
 test:
 	@$(MAKE) lint
 	@echo TRAVIS_JOB_ID $(TRAVIS_JOB_ID)
-	@NODE_ENV=test ./node_modules/.bin/karma start karma.conf.jshint $(REPORTER)
+	@NODE_ENV=test ./node_modules/karma/bin/karma start karma.conf.js --browsers Firefox --single-run --reporters dots $(REPORTER)
 
 lint:
 	./node_modules/.bin/jshint ./js ./tests ./arkanoid.js ./audio.js
