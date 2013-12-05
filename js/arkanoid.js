@@ -134,7 +134,7 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
 
         }
       }
-      else if(shapeType == b2Shape.e_polygonShape && b.GetType() == b2Body.b2_dynamicBody){
+      else if(shapeType == b2Shape.e_polygonShape){
         context.strokeStyle = "#FFFFFF";
         context.fillStyle = "#000000";
         context.beginPath();
