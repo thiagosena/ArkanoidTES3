@@ -86,20 +86,11 @@ this.addPaddle=function(world, canvaswidth){
       globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(-9999999, 0));
     }
 
-    if (event.which == 115 ) {
-    //window.alert("voce apertou S");
-      globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(0, -9999999));
-    }
-
     if (event.which == 100 ) {
     //window.alert("voce apertou D");
       globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(9999999, 0));
     }
 
-    if (event.which == 119 ) {
-    //window.alert("voce apertou W");
-      globalBodyPaddle.GetBody().SetLinearVelocity(new b2Vec2(0, 9999999));
-    }
   });
 };
 
@@ -183,12 +174,9 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
     var destroy = new Song();
     while (edge)  {
       var other = edge.other;
-      
-	  
-	  //window.alert(other.GetUserData().value);
 	  
 	  var ud = other.GetUserData();
-	  //window.alert(ud.value);
+	  
       if (other.GetType() == b2Body.b2_kinematicBody && ud.value == 2) {
         var othershape = other.GetFixtureList().GetShape();
 
