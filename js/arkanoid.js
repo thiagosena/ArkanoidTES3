@@ -1,3 +1,9 @@
+function TipoCorpo(valor){
+	var value;
+		this.value = valor;
+	
+}
+
 function ArkanoidClass() {
   
 var mainclass = this; //Referência a propria classe.
@@ -18,7 +24,7 @@ this.addCircle=function(world,canvaswidth,canvasheight) {
 
 
   var body = world.CreateBody(bodyDef).CreateFixture(fixDef);
-  body.GetBody().ApplyImpulse(new b2Vec2(60, -777777),body.GetBody().GetWorldCenter());
+  body.GetBody().ApplyImpulse(new b2Vec2(600000, -777777),body.GetBody().GetWorldCenter());
   if(body){
     return true;
   }
@@ -43,6 +49,8 @@ this.addBlock=function(world,x,y) {
   fixDef.shape = new b2PolygonShape();
   fixDef.shape.SetAsBox(30,15);
   bodyDef.position.Set(x,y);
+  bodyDef.userData = new TipoCorpo(2);
+
   var body = world.CreateBody(bodyDef).CreateFixture(fixDef);
   if(body){
     return true;
@@ -58,7 +66,7 @@ this.addPaddle=function(world, canvaswidth){
   //Define the paddle
   var globalBodyPaddle;
   var bodyDefPaddle = new b2BodyDef();
-  bodyDefPaddle.type = b2Body.b2_dynamicBody;
+  bodyDefPaddle.type = b2Body.b2_kinematicBody;
   bodyDefPaddle.position.Set(canvaswidth/2, 20);
   var fixDefPaddle = new b2FixtureDef();
   fixDefPaddle.density = 1;
@@ -67,6 +75,8 @@ this.addPaddle=function(world, canvaswidth){
 
   fixDefPaddle.shape = new b2PolygonShape();
   fixDefPaddle.shape.SetAsBox(95,10);
+  
+  bodyDefPaddle.userData = new TipoCorpo(1);
 
   globalBodyPaddle = world.CreateBody(bodyDefPaddle).CreateFixture(fixDefPaddle);
   //Configurando o teclado
@@ -134,15 +144,6 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
 
         }
       }
-      else if(shapeType == b2Shape.e_polygonShape){
-        context.strokeStyle = "#FFFFFF";
-        context.fillStyle = "#000000";
-        context.beginPath();
-        context.rect(position.x, canvasheight - position.y, 95, 10);
-        context.closePath();
-        context.stroke();
-        context.fill();
-      }
     }
    
    
@@ -156,7 +157,8 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
       var shapeType2 = shape2.GetType();
 
       // draw the blocks
-      if (shapeType2 == b2Shape.e_polygonShape) {
+	var ud = b.GetUserData();
+      if (shapeType2 == b2Shape.e_polygonShape && ud.value == 2) {
         context.strokeStyle = "#a4a4a4";
         context.fillStyle = '#'+Math.floor(Math.random()*16777215).toString(16);
         context.beginPath();
@@ -165,6 +167,16 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
         context.stroke();
         context.fill();
       }
+	  else if (ud.value == 1){
+		context.strokeStyle = "#FFFFFF";
+        context.fillStyle = "#000000";
+        context.beginPath();
+        context.rect(position.x, canvasheight - position.y, 95, 10);
+        context.closePath();
+        context.stroke();
+        context.fill();
+	  }
+	  
     }
     
     var edge = b.GetContactList();
@@ -172,7 +184,12 @@ this.processObjects=function(world, context, canvaswidth, canvasheight) {
     while (edge)  {
       var other = edge.other;
       
-      if (other.GetType() == b2Body.b2_kinematicBody) {
+	  
+	  //window.alert(other.GetUserData().value);
+	  
+	  var ud = other.GetUserData();
+	  //window.alert(ud.value);
+      if (other.GetType() == b2Body.b2_kinematicBody && ud.value == 2) {
         var othershape = other.GetFixtureList().GetShape();
 
         if (othershape.GetType() == b2Shape.e_polygonShape) {
