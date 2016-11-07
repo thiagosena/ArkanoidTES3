@@ -9,7 +9,7 @@ A HTML5 experiment to implement the game ARKANOID in a `<canvas>`
 The project in question refers to a platform game inspired by the arcade Arkanoid for, which in turn was inspired by the original Breakout for Atari. The objective of the game is to control a paddle to bounce a ball against blocks on top of the screen. Each block sum hit points the player, the player loses the ball reaches the bottom of the screen.
 
 <h3>Tests</h3>
-App setup for unit testing client-side JavaScript code with [Jasmine.js](http://pivotal.github.io/jasmine/)
+App setup for unit testing client-side JavaScript code with [Jasmine.js](https://jasmine.github.io/)
 
 This sample also includes a [Karma](http://karma-runner.github.io/) configuration to run the tests automatically.
 
